@@ -5,11 +5,9 @@
 // Vue.jsの記述
 new Vue({
   el: '#app',
-
   data: {
     userName: "hoge"
   },
-
   watch: {
   },
   computed: {
