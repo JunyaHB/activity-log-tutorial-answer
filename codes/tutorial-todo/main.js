@@ -7,6 +7,7 @@ new Vue({
   el: '#app',
 
   data: {
+    userName: "hoge"
   },
 
   watch: {
