@@ -1,19 +1,124 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>activity-log</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="main.css">
-</head>
-<body>
-  <div id="app" class="container">
-    <p>{{ userName }}</p>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  <script src="./main.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>activity-log</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="main.css" />
+  </head>
+  <body>
+    <div id="app" class="container">
+      <div style="text-align: right;">
+        <button class="btn btn-danger mr-2">
+          リセット
+        </button>
+        <button class="btn btn-secondary">PDF出力</button>
+      </div>
+      <div id="activity-log">
+        <h1>活動記録</h1>
+        <h3>基本情報</h3>
+        <p>氏名：{{ name }}</p>
+        <p>
+          期間：
+          <span>~</span>
+        </p>
+        <p>今週の活動記録：h</p>
+        <h3>活動概要</h3>
+        <table
+          class="table"
+          style="table-layout: fixed; word-wrap: break-word;"
+        >
+          <thead class="thead-light">
+            <tr>
+              <th style="width: 15%;">日付</th>
+              <th style="width: 15%;">区分</th>
+              <th style="width: 10%;">所要時間</th>
+              <th style="width: 50%;">活動内容</th>
+              <th style="width: 10%;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="activity in activities">
+              <td>{{ activity.date }}</td>
+              <td>{{ activity.section }}</td>
+              <td>{{ activity.time }}</td>
+              <td style="white-space: pre-wrap;">{{ activity.detail }}</td>
+              <td>
+                <button class="btn btn-danger">
+                  削除
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="activity-edit">
+        <div class="border mt-5">
+          <h2 class="pt-5">氏名の変更</h2>
+          <div class="p-5">
+            <div class="form-group">
+              <label>名前</label>
+              <input type="text" ref="name" class="form-control" />
+              <p v-if="name.length > 8" style="color: red;">
+                名前は、８文字以内でご入力ください
+              </p>
+            </div>
+            <button v-on:click="addName" class="btn btn-primary">
+              送信
+            </button>
+          </div>
+        </div>
+        <div class="border mt-5">
+          <h2 class="pt-5">活動追加</h2>
+          <div class="p-5">
+            <div class="form-group">
+              <label>日付</label>
+              <input type="date" ref="date" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label>区分</label>
+              <input type="section" ref="section" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label>所要時間(半角数字)</label>
+              <input type="text" ref="time" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label>活動内容</label>
+              <textarea
+                type="text"
+                ref="detail"
+                class="form-control"
+              ></textarea>
+            </div>
+            <button v-on:click="addActivity" class="btn btn-primary">
+              追加
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="./main.js"></script>
+  </body>
 </html>
