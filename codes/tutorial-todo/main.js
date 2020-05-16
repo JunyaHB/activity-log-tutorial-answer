@@ -14,22 +14,17 @@ new Vue({
     },
     addActivity: function() {
       // ref で名前を付けておいた要素を参照
-      var date = this.$refs.date;
-      var section = this.$refs.section;
-      var time = this.$refs.time;
-      var detail = this.$refs.detail;
-
       this.activities.push({
-        date: date.value,
-        section: section.value,
-        time: time.value,
-        detail: detail.value,
+        date: this.$refs.date.value,
+        section: this.$refs.section.value,
+        time: this.$refs.time.value,
+        detail: this.$refs.detail.value,
       });
       // フォーム要素を空にする
-      date.value = "";
-      section.value = "";
-      time.value = "";
-      detail.value = "";      
+      this.$refs.date.value = "";
+      this.$refs.section.value = "";
+      this.$refs.time.value = "";
+      this.$refs.detail.value = "";      
     }
   },
 });
